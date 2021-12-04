@@ -1,8 +1,7 @@
 
 <script>
-    const w = 70;
+    const w = 70; // default width for each image
     const cm = 5; //cursor margin, for cursor select
-    const cx = -30; const cy = -300; // center image under cursor
     const ch = 750; const cw = 1490; //canvas height canvas width
 	const images = [
 		{ id: 1, text: `cat`, name: `cat.png` , width: w},
@@ -16,17 +15,17 @@
 
 	let selected = images[0];
     
+    // cursor variables
+	const cx = -30; const cy = -300; // center image under cursor
     let top = 1000;
     let bottom;
     let right;
     let left;
     let start = false;
     
-    let checkcolors = false;
 
     
     function getCoords(event){
-    //the person said logic was taken from jQuery so maybe look into that
                 let eventDoc = (event.target && event.target.ownerDocument) || document;
                 let doc = eventDoc.documentElement;
                 let body = eventDoc.body;
@@ -72,7 +71,6 @@
     
     function clearScreen() {
         location.reload(); 
-        //document.getElementById("drawn").style.display='none';
     }
     
     function handleStart(event) {
@@ -89,16 +87,12 @@
 		alert(`answered question ${selected.id} (${selected.text}) with "${answer}"`);
 	}
     
-    function tester (msg) {
-    //on:click={() => tester("hi")}
-        console.log(msg);
-    }
+
     console.log("hello");
     
     $: {console.log(`the selected image is ${selected.text}`); }
     
-    //$: {document.getElementById('canvas').style.backgroundColor = ${selectedColor.color};}
-    //onclick="this.style.backgroundColor=selectedColor.color;"
+
 </script>
 
 <h1>WELCOME</h1>
@@ -110,15 +104,13 @@
 <button value="Select Cursor" on:click={() => toggleMenu('cursor-select')}>Select Cursor</button>
 <button on:click={clearScreen}>Clear Screen</button>
 
-{#if checkcolors}
-<input type=checkbox style="background-color:#0000ff;background:#0000ff;color:#0000ff">
-<input type=checkbox style="background-color:#ff00ff;background:#00ffff;color:#ff0000">
-{/if}
+<div id="cursor-select" style="display:none; position:relative; 
+width:{ (w + cm) * images.length + cm}px;">
 
-<div id="cursor-select" style="display:none; position:relative; top:0px;left:0px;width:{ (w + cm) * images.length + cm}px">
     {#each images as image}
-        <img id="cursor" src={image.name} on:click={() => selectCursor(image)} style="display:inline; width:{image.width}px; position:inline; margin-left:{cm}px; margin-top:{cm}px">
+        <img id="cursor" src={image.name} on:click={() => selectCursor(image)} style="display:inline; width:{image.width}px; position:inline; margin-left:{cm}px; margin-top:{cm}px;">
     {/each}
+    
 </div>
 
 <div style="position:absolute; width:{cw}px; height:{ch}px; margin-bottom:5px;
